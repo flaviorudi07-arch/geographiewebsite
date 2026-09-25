@@ -1,14 +1,73 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" class="dark h-full bg-[#05070e] text-slate-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GUESS THE WORLD 🌍 - Daily Globe Game</title>
+    <title>PinTheLocation – Jeu de géographie quotidien | Guess the World</title>
+    <meta name="description" content="Jouez à PinTheLocation, un jeu de géographie quotidien gratuit : devinez 5 lieux dans le monde sur un globe 3D interactif, testez vos connaissances et construisez votre streak.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="theme-color" content="#05070e">
+    <meta name="application-name" content="PinTheLocation">
 
-    <link rel="icon" type="image/png" href="/favicon_512.png?v=2">
+    <link rel="canonical" href="https://www.pinthelocation.com/">
+    <link rel="icon" type="image/png" href="/favicon_512.png">
+    <link rel="apple-touch-icon" href="/favicon_512.png">
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7847354953235695"
-     crossorigin="anonymous"></script>
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PinTheLocation">
+    <meta property="og:title" content="PinTheLocation – Daily Geography Game">
+    <meta property="og:description" content="Guess 5 locations around the world every day on an interactive 3D globe. Test your geography skills and build your streak.">
+    <meta property="og:url" content="https://www.pinthelocation.com/">
+    <meta property="og:image" content="https://www.pinthelocation.com/favicon_512.png">
+    <meta property="og:image:alt" content="PinTheLocation – interactive world geography game">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_GB">
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PinTheLocation – Daily Geography Game">
+    <meta name="twitter:description" content="Guess 5 locations around the world every day on an interactive 3D globe.">
+    <meta name="twitter:image" content="https://www.pinthelocation.com/favicon_512.png">
+
+    <!-- Structured data: helps search engines understand the site and the game -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://www.pinthelocation.com/#website",
+          "url": "https://www.pinthelocation.com/",
+          "name": "PinTheLocation",
+          "description": "Daily geography game where players guess locations around the world on an interactive 3D globe.",
+          "inLanguage": ["fr-FR", "en"]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://www.pinthelocation.com/#game",
+          "name": "PinTheLocation",
+          "url": "https://www.pinthelocation.com/",
+          "description": "A free daily geography game where players guess five locations around the world using an interactive 3D globe.",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Web Browser",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Performance: establish connections early for third-party assets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -48,8 +107,16 @@
 </head>
 <body class="h-full w-full bg-[#05070e] text-slate-100 relative overflow-hidden select-none">
 
+    <noscript>
+        <div style="padding:2rem;font-family:system-ui,sans-serif;background:#05070e;color:#fff;min-height:100vh">
+            <h2>PinTheLocation – Daily Geography Game</h2>
+            <p>PinTheLocation is a free daily geography game. Guess five locations around the world using an interactive 3D globe.</p>
+            <p>Please enable JavaScript to play the game.</p>
+        </div>
+    </noscript>
+
     <!-- 3D WebGL Globe Canvas Container -->
-    <div id="globe-container" class="absolute inset-0 z-0 cursor-grab active:cursor-grabbing"></div>
+    <div id="globe-container" class="absolute inset-0 z-0 cursor-grab active:cursor-grabbing" role="img" aria-label="Globe terrestre 3D interactif"></div>
 
     <!-- START & MANDATORY LOGIN SCREEN OVERLAY -->
     <div id="login-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl">
@@ -96,7 +163,7 @@
                 🌍
             </div>
             <div>
-                <h1 class="text-xs sm:text-sm font-bold font-display tracking-wide text-white">GUESS THE WORLD</h1>
+                <span class="text-xs sm:text-sm font-bold font-display tracking-wide text-white">GUESS THE WORLD</span>
                 <p id="daily-date" class="text-[10px] text-slate-400 font-mono">CHALLENGE DU JOUR</p>
             </div>
         </div>
@@ -122,19 +189,19 @@
             </button>
 
             <!-- Stats Modal Toggle -->
-            <button onclick="openModal('stats-modal')" class="glass-btn w-9 h-9 rounded-2xl flex items-center justify-center text-slate-200">
-                <i class="fa-solid fa-chart-simple text-xs"></i>
+            <button onclick="openModal('stats-modal')" class="glass-btn w-9 h-9 rounded-2xl flex items-center justify-center text-slate-200" aria-label="Voir mes statistiques" title="Statistiques">
+                <i class="fa-solid fa-chart-simple text-xs" aria-hidden="true"></i>
             </button>
 
             <!-- Help / How to play -->
-            <button onclick="openModal('help-modal')" class="glass-btn w-9 h-9 rounded-2xl flex items-center justify-center text-slate-200">
-                <i class="fa-solid fa-circle-question text-xs"></i>
+            <button onclick="openModal('help-modal')" class="glass-btn w-9 h-9 rounded-2xl flex items-center justify-center text-slate-200" aria-label="Comment jouer" title="Comment jouer">
+                <i class="fa-solid fa-circle-question text-xs" aria-hidden="true"></i>
             </button>
         </div>
     </header>
 
     <!-- MAIN GAME HUD PANEL (LEFT SIDE / TOP MOBILE) -->
-    <main id="game-hud" class="absolute top-16 left-3 right-3 sm:right-auto sm:left-4 sm:top-20 z-20 sm:max-w-md w-full pointer-events-auto transition-all">
+    <main id="game-hud" aria-label="PinTheLocation daily geography challenge" class="absolute top-16 left-3 right-3 sm:right-auto sm:left-4 sm:top-20 z-20 sm:max-w-md w-full pointer-events-auto transition-all">
         <div class="glass-card rounded-3xl p-4 sm:p-5 shadow-2xl border border-slate-700/80 space-y-3">
             
             <!-- Round Bar Header -->
@@ -2637,6 +2704,10 @@
 
         function toggleLanguage() {
             currentLang = currentLang === 'fr' ? 'en' : 'fr';
+            document.documentElement.lang = currentLang;
+            document.title = currentLang === 'fr'
+                ? 'PinTheLocation – Jeu de géographie quotidien | Guess the World'
+                : 'PinTheLocation – Daily Geography Game | Guess the World';
             document.getElementById('lang-flag').innerText = currentLang === 'fr' ? '🇫🇷' : '🇬🇧';
             document.getElementById('lang-label').innerText = currentLang.toUpperCase();
             if (currentRoundIndex < 5) setupRound(currentRoundIndex);
